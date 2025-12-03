@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Actividad 02 - Recta Numérica</title>
+
+    <!-- Estilos globales del portafolio -->
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <!-- Estilos propios de la actividad -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Actividad 02 – Visualizador de la Recta Numérica</h1>
+    <p>Fundamentos de Álgebra – Tecnológico de Software</p>
+    <a class="btn" href="../../index.html">← Regresar al Portafolio</a>
+</header>
+
+<main class="actividad-container">
+
+    <!-- ===================== CONTROLES ====================== -->
+    <section class="card-a02">
+        <h2>Controles de Entrada</h2>
+
+        <div class="input-group">
+            <label for="numberInput">Valor del número:</label>
+            <input type="text" id="numberInput" placeholder="Ej: sqrt(7), 2*π, 12, 1/3, φ">
+        </div>
+
+        <button onclick="addNumber()">Agregar Número</button>
+        <button onclick="clearAll()">Limpiar Todo</button>
+
+        <h3>Números Predefinidos</h3>
+        <div class="preset-numbers">
+            <span class="preset-btn" onclick="addPresetNumber('π')">π</span>
+            <span class="preset-btn" onclick="addPresetNumber('e')">e</span>
+            <span class="preset-btn" onclick="addPresetNumber('√2')">√2</span>
+            <span class="preset-btn" onclick="addPresetNumber('√3')">√3</span>
+            <span class="preset-btn" onclick="addPresetNumber('φ')">φ</span>
+            <span class="preset-btn" onclick="addPresetNumber('1/3')">1/3</span>
+            <span class="preset-btn" onclick="addPresetNumber('-1/2')">-1/2</span>
+            <span class="preset-btn" onclick="addPresetNumber('2.5')">2.5</span>
+            <span class="preset-btn" onclick="addPresetNumber('-√2')">-√2</span>
+            <span class="preset-btn" onclick="addPresetNumber('2*π')">2*π</span>
+        </div>
+    </section>
+
+    <!-- ===================== RECTA NUMÉRICA ====================== -->
+    <section class="card-a02 number-line-container">
+        <h2>Recta Numérica Interactiva</h2>
+
+        <div class="number-line" id="numberLine"></div>
+
+        <p style="text-align:center; margin-top:10px;">
+            Rango visible: -10 a +10
+        </p>
+    </section>
+
+    <!-- ===================== PANEL DE INFORMACIÓN ====================== -->
+    <section class="info-panels">
+
+        <!-- Panel de clasificación -->
+        <div class="card-a02">
+            <h3>Clasificación de Conjuntos Numéricos</h3>
+
+            <ul style="line-height:1.6;">
+                <li><strong>ℕ – Naturales:</strong> 1, 2, 3, 4…</li>
+                <li><strong>ℤ – Enteros:</strong> -3, -2, -1, 0, 1…</li>
+                <li><strong>ℚ – Racionales:</strong> fracciones y decimales periódicos</li>
+                <li><strong>ℝ - ℚ – Irracionales:</strong> π, √2, e…</li>
+            </ul>
+
+        </div>
+
+        <!-- Panel lista de puntos -->
+        <div class="card-a02">
+            <h3>Puntos en la Recta</h3>
+            <div id="pointsList" class="points-list">
+                <p>Agrega números para verlos aquí</p>
+                <small>Se mostrarán ordenados de menor a mayor</small>
+            </div>
+        </div>
+
+        <!-- Panel calculadora de distancia -->
+        <div class="card-a02">
+            <h3>Calculadora de Distancias</h3>
+
+            <p>Selecciona dos puntos:</p>
+
+            <!-- Select A -->
+            <div class="custom-select" id="pointA-container">
+                <div class="select-selected" id="pointA-selected">Selecciona un punto</div>
+                <div class="select-items" id="pointA-items">
+                    <div data-value="">Selecciona un punto</div>
+                </div>
+            </div>
+
+            <br>
+
+            <!-- Select B -->
+            <div class="custom-select" id="pointB-container">
+                <div class="select-selected" id="pointB-selected">Selecciona un punto</div>
+                <div class="select-items" id="pointB-items">
+                    <div data-value="">Selecciona un punto</div>
+                </div>
+            </div>
+
+            <br>
+
+            <button class="distance-btn" onclick="calculateDistance()">Calcular Distancia</button>
+
+            <div id="distanceResult" class="distance-result">
+                <p>Resultados aparecerán aquí…</p>
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+<!-- Script global del portafolio -->
+<script src="../../js/script_global.js"></script>
+
+<!-- Script de la actividad -->
+<script src="script.js"></script>
+
+</body>
+</html>
