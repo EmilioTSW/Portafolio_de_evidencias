@@ -5,24 +5,6 @@ Este repositorio contiene el Portafolio de Evidencias desarrollado a lo largo de
 
 ## El portafolio está organizado de manera limpia y modular:
 
-/
-├── index.html              <-- Página principal (menú del portafolio)
-├── css/
-│   └── style.css           <-- Hoja de estilos global
-├── js/
-│   └── script_global.js    <-- Scripts globales (si se requieren)
-├── assets/
-│   └── images/             <-- Imágenes generales
-├── actividades/            <-- Actividades integradas del curso
-│   ├── actividad02/
-│   ├── actividad04/
-│   ├── actividad06/
-│   ├── actividad08/
-│   ├── actividad10/
-│   ├── actividad12/
-│   └── actividad14/
-└── README.md
-
 
 ##  Actividades Incluidas
 
