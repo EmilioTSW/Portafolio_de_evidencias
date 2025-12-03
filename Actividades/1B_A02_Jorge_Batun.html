@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visualizador de la Recta Numérica Fundamentos de Álgebra</title>
+<style>
+/* ==================== RESET BÁSICO Y TIPOGRAFÍA ==================== */
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente moderna y limpia */
+line-height: 1.5;
+background-color: #1a237e; /* Azul oscuro profundo */
+color: #e8eaf6; /* Blanco roto para texto principal */
+padding: 15px;
+}
+
+.container {
+max-width: 1200px;
+margin: 0 auto;
+border: 3px solid #448aff; /* Azul brillante para el borde */
+border-radius: 10px;
+padding: 25px;
+background-color: #283593; /* Azul medio */
+box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+}
+
+/* ==================== ENCABEZADOS ==================== */
+h1 {
+font-size: 2.2em; /* Tamaño más grande */
+margin-bottom: 15px;
+color: #ffcc80; /* Naranja suave para el título principal */
+text-align: center;
+font-weight: 700; /* Negrita */
+text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+h2 {
+font-size: 1.6em;
+margin-bottom: 20px;
+color: #fff9c4; /* Amarillo claro para subtítulos */
+text-align: center;
+border-bottom: 2px solid #448aff;
+padding-bottom: 10px;
+}
+
+h3 {
+font-size: 1.3em;
+margin-bottom: 15px;
+color: #fff9c4; /* Amarillo claro */
+}
+
+p {
+font-size: 1em;
+margin: 8px 0;
+text-align: center;
+}
+
+/* ==================== CONTROLES Y FORMULARIOS ==================== */
+.controls {
+border: 2px solid #f57c00; /* Naranja oscuro para el borde de controles */
+padding: 25px;
+margin-bottom: 25px;
+border-radius: 8px;
+background-color: #3f51b5; /* Azul más oscuro */
+}
+
+.input-group {
+margin-bottom: 25px;
+}
+
+.input-group label {
+display: block;
+font-weight: bold;
+margin-bottom: 8px;
+color: #e8eaf6; /* Blanco roto */
+font-size: 1.1em;
+}
+
+.input-group input {
+width: calc(100% - 24px); /* Ajuste para padding */
+max-width: 350px; /* Ancho máximo */
+padding: 12px;
+border: 2px solid #448aff; /* Azul brillante */
+border-radius: 5px;
+font-size: 1em;
+margin-bottom: 10px;
+background-color: #e3f2fd; /* Azul muy claro */
+color: #1a237e; /* Azul oscuro para el texto del input */
+transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-group input:focus {
+outline: none;
+border-color: #ffcc80; /* Naranja suave */
+box-shadow: 0 0 8px rgba(255, 204, 128, 0.5);
+}
+
+/* ==================== BOTONES ==================== */
+button {
+padding: 12px 25px;
+font-size: 1em;
+font-weight: bold;
+border: none; /* Sin borde predeterminado */
+border-radius: 5px;
+background-color: #f57c00; /* Naranja principal */
+color: white;
+cursor: pointer;
+margin-right: 12px;
+margin-bottom: 8px;
+transition: background-color 0.3s ease, transform 0.2s ease;
+box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+button:hover {
+background-color: #e65100; /* Naranja más oscuro al pasar el ratón */
+transform: translateY(-2px); /* Ligero efecto de elevación */
+}
+
+button:active {
+transform: translateY(0); /* Eliminar elevación al hacer clic */
+box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* ==================== NÚMEROS PREDEFINIDOS ==================== */
+.preset-section {
+margin-top: 25px;
+}
+
+.preset-section h3 {
+font-size: 1.2em;
+margin-bottom: 15px;
+color: #fff9c4; /* Amarillo claro */
+}
+
+.preset-section p {
+margin-bottom: 20px;
+color: #e8eaf6; /* Blanco roto */
+font-size: 0.95em;
+text-align: left;
+}
+
+.preset-numbers {
+display: flex;
+flex-wrap: wrap;
+gap: 10px; /* Espacio entre botones */
+margin-top: 15px;
+justify-content: center; /* Centrar los botones */
+}
+
+.preset-btn {
+padding: 8px 15px;
+border: 2px solid #448aff; /* Azul brillante */
+border-radius: 5px;
+background-color: #8c9eff; /* Azul claro */
+cursor: pointer;
+font-size: 0.9em;
+font-weight: bold;
+transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.preset-btn:hover {
+background-color: #448aff; /* Azul más intenso */
+color: #fff9c4; /* Amarillo claro al pasar el ratón */
+transform: translateY(-1px);
+}
+
+/* ==================== RECTA NUMÉRICA ==================== */
+.number-line-container {
+border: 3px solid #f57c00; /* Naranja oscuro */
+border-radius: 10px;
+padding: 25px;
+margin-bottom: 25px;
+background-color: #3f51b5; /* Azul medio oscuro */
+}
+
+.number-line-container h2 {
+font-size: 1.7em;
+margin-bottom: 20px;
+text-align: center;
+color: #fff9c4; /* Amarillo claro */
+}
+
+.number-line {
+width: 100%;
+height: 120px; /* Más alto para mejor visibilidad */
+position: relative;
+background-color: #e8f5e9; /* Verde muy pálido para el fondo */
+border: 2px solid #4caf50; /* Verde para la línea */
+border-radius: 5px;
+margin: 20px 0;
+overflow: hidden; /* Para asegurar que los puntos queden dentro */
+}
+
+.range-info {
+text-align: center;
+margin-top: 15px;
+}
+
+.range-info small {
+color: #e8eaf6; /* Blanco roto */
+font-size: 0.9em;
+}
+
+/* ==================== ELEMENTOS DE LA RECTA ==================== */
+.line {
+position: absolute;
+top: 50%; /* Centrado verticalmente */
+left: 2.5%; /* Margen izquierdo */
+right: 2.5%; /* Margen derecho */
+height: 6px; /* Línea más gruesa */
+background-color: #4caf50; /* Verde */
+transform: translateY(-50%); /* Centrado exacto */
+border-radius: 3px;
+}
+
+.tick {
+position: absolute;
+width: 3px; /* Más grueso */
+height: 25px; /* Más largo */
+background-color: #000000; /* Negro */
+top: calc(50% - 12.5px); /* Centrado */
+transform: translateX(-50%); /* Centra la marca */
+}
+
+.tick-label {
+position: absolute;
+top: 65px; /* Ajustado para estar debajo de la línea */
+font-size: 13px;
+font-weight: bold;
+color: #ffffff; /* Blanco */
+transform: translateX(-50%);
+text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Sombra para legibilidad */
+}
+
+/* ==================== PUNTOS EN LA RECTA ==================== */
+.number-point {
+position: absolute;
+width: 20px; /* Más grande */
+height: 20px;
+top: calc(50% - 10px); /* Centrado verticalmente */
+border-radius: 50%; /* Circular */
+transform: translateX(-50%);
+cursor: pointer;
+border: 2px solid #ffffff; /* Borde blanco para contraste */
+box-shadow: 0 0 8px rgba(0,0,0,0.5);
+transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.number-point.naturals {
+background-color: #f44336; /* Rojo */
+}
+
+.number-point.integers {
+background-color: #2196f3; /* Azul */
+}
+
+.number-point.rationals {
+background-color: #4caf50; /* Verde */
+}
+
+.number-point.irrationals {
+background-color: #ffeb3b; /* Amarillo */
+}
+
+.number-point:hover {
+transform: translateX(-50%) scale(1.2); /* Escalar al pasar el ratón */
+box-shadow: 0 0 15px rgba(0,0,0,0.7);
+}
+
+.point-label {
+position: absolute;
+top: -30px; /* Más arriba */
+transform: translateX(-50%);
+background-color: #303f9f; /* Azul índigo para el fondo */
+color: #e8eaf6; /* Blanco roto para el texto */
+border: 1px solid #1a237e; /* Borde azul oscuro */
+padding: 3px 6px;
+font-size: 11px;
+font-weight: bold;
+white-space: nowrap;
+border-radius: 4px;
+opacity: 0; /* Oculto por defecto */
+transition: opacity 0.2s ease;
+}
+
+.number-point:hover .point-label {
+opacity: 1; /* Mostrar al pasar el ratón sobre el punto */
+}
+
+/* =================== PANELES DE INFORMACIÓN =================== */
+.info-panels {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 25px; /* Espacio entre paneles */
+}
+
+.classification-panel,
+.points-panel,
+.distance-calculator {
+border: 2px solid #f57c00; /* Naranja oscuro */
+border-radius: 8px;
+padding: 20px;
+background-color: #3f51b5; /* Azul medio oscuro */
+}
+
+.classification-panel h3,
+.points-panel h3,
+.distance-calculator h3 {
+font-size: 1.4em;
+margin-bottom: 20px;
+color: #fff9c4; /* Amarillo claro */
+border-bottom: 3px solid #ffcc80; /* Naranja suave */
+padding-bottom: 8px;
+text-align: center;
+}
+
+/* ================== LEYENDA DE CLASIFICACIÓN ================== */
+.classification-legend {
+margin-bottom: 25px;
+padding: 15px;
+border-radius: 5px;
+background-color: #1a237e; /* Azul oscuro profundo */
+}
+
+.legend-item {
+display: flex;
+align-items: center;
+gap: 12px;
+margin: 12px 0;
+}
+
+.legend-color {
+width: 25px;
+height: 25px;
+border: 2px solid #ffffff; /* Borde blanco */
+border-radius: 4px;
+flex-shrink: 0; /* Evitar que se encoja */
+}
+
+.legend-color.naturals { background-color: #f44336; }
+.legend-color.integers { background-color: #2196f3; }
+.legend-color.rationals { background-color: #4caf50; }
+.legend-color.irrationals { background-color: #ffeb3b; }
+
+.classification-info h4 {
+font-size: 1.1em;
+margin: 20px 0 15px 0;
+color: #fff9c4; /* Amarillo claro */
+}
+
+.classification-info ul {
+margin-left: 25px;
+list-style: disc; /* Estilo de lista de puntos */
+}
+
+.classification-info li {
+margin: 8px 0;
+font-size: 0.95em;
+color: #e8eaf6; /* Blanco roto */
+}
+
+/* ==================== LISTA DE PUNTOS ==================== */
+.points-list {
+min-height: 220px;
+padding: 15px;
+border-radius: 5px;
+background-color: #1a237e; /* Azul oscuro profundo */
+}
+
+.empty-state p {
+font-size: 1.1em;
+color: #e8eaf6; /* Blanco roto */
+text-align: center;
+margin: 25px 0;
+}
+
+.empty-state small {
+display: block;
+text-align: center;
+font-size: 0.9em;
+color: #c5cae9; /* Azul claro */
+}
+
+.point-item {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 12px 15px;
+margin: 8px 0;
+border: 1px solid #448aff; /* Azul brillante */
+border-radius: 5px;
+background-color: #3f51b5; /* Azul medio */
+transition: background-color 0.3s ease;
+}
+
+.point-item:hover {
+background-color: #3f51b580; /* Azul medio con transparencia */
+}
+
+.point-item span:first-child {
+font-weight: bold;
+color: #e8eaf6; /* Blanco roto */
+}
+
+.point-item span:last-child {
+font-size: 0.9em;
+padding: 5px 10px;
+border-radius: 15px;
+font-weight: bold;
+}
+
+.classification-tag.naturals { background-color: #f44336; color: white; }
+.classification-tag.integers { background-color: #2196f3; color: white; }
+.classification-tag.rationals { background-color: #4caf50; color: white; }
+.classification-tag.irrationals { background-color: #ffeb3b; color: #1a237e; } /* Texto oscuro sobre amarillo */
+
+
+/* ================== CALCULADORA DE DISTANCIAS ================== */
+.distance-calculator {
+position: relative; /* Para poder posicionar elementos internamente */
+}
+
+.calculator-description {
+margin-bottom: 20px;
+font-size: 0.95em;
+color: #e8eaf6; /* Blanco roto */
+text-align: left;
+}
+
+.distance-inputs {
+margin-bottom: 25px;
+}
+
+.distance-field {
+margin-bottom: 18px;
+}
+
+.distance-field label {
+display: block;
+font-weight: bold;
+margin-bottom: 10px;
+color: #e8eaf6; /* Blanco roto */
+font-size: 1.1em;
+}
+
+.custom-select {
+position: relative;
+width: 100%;
+user-select: none; /* Evitar selección de texto al interactuar */
+}
+
+.select-selected {
+padding: 12px 35px 12px 15px;
+border: 2px solid #448aff; /* Azul brillante */
+border-radius: 5px;
+background-color: #e3f2fd; /* Azul muy claro */
+cursor: pointer;
+font-size: 1em;
+color: #1a237e; /* Azul oscuro */
+transition: border-color 0.3s ease;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.select-selected:after {
+content: "▼"; /* Flecha hacia abajo */
+position: absolute;
+right: 15px;
+top: 50%;
+transform: translateY(-50%);
+font-size: 0.9em;
+color: #1a237e; /* Azul oscuro */
+pointer-events: none; /* Evita que la flecha interfiera con el clic */
+}
+
+.select-items {
+position: absolute;
+top: calc(100% + 2px); /* Justo debajo del selected */
+left: 0;
+right: 0;
+background-color: #303f9f; /* Azul índigo */
+border: 2px solid #448aff; /* Azul brillante */
+border-top: none;
+z-index: 1001; /* Asegura que esté sobre otros elementos */
+max-height: 180px; /* Altura máxima con scroll */
+overflow-y: auto;
+display: none; /* Oculto por defecto */
+border-radius: 0 0 5px 5px; /* Bordes redondeados inferiores */
+}
+
+.select-items.show {
+display: block;
+}
+
+.select-items div {
+padding: 10px 15px;
+cursor: pointer;
+border-bottom: 1px solid #448aff; /* Línea divisoria azul */
+font-size: 0.95em;
+color: #e8eaf6; /* Blanco roto */
+transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.select-items div:hover {
+background-color: #448aff; /* Azul más intenso */
+color: #fff9c4; /* Amarillo claro */
+}
+
+.select-items div:last-child {
+border-bottom: none; /* Sin borde en el último elemento */
+}
+
+.distance-btn {
+width: 100%;
+padding: 14px;
+background-color: #f57c00; /* Naranja principal */
+color: white;
+border: none;
+border-radius: 5px;
+font-size: 1.1em;
+font-weight: bold;
+cursor: pointer;
+margin-bottom: 20px;
+box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.distance-btn:hover {
+background-color: #e65100; /* Naranja más oscuro */
+transform: translateY(-2px);
+}
+
+.distance-btn:active {
+transform: translateY(0);
+box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+
+.distance-placeholder {
+text-align: center;
+padding: 25px;
+border: 2px dashed #448aff; /* Línea discontinua azul */
+border-radius: 5px;
+background-color: #28359350; /* Azul medio con transparencia */
+color: #c5cae9; /* Azul claro */
+}
+
+.distance-placeholder div {
+font-size: 1.1em;
+margin-bottom: 10px;
+font-weight: bold;
+}
+
+.distance-result {
+padding: 20px;
+border: 2px solid #4caf50; /* Verde */
+border-radius: 8px;
+background-color: #e8f5e9; /* Verde muy pálido */
+font-size: 1em;
+text-align: center;
+box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.distance-result div {
+margin-bottom: 10px;
+}
+.distance-result div:last-child {
+margin-bottom: 0;
+font-weight: bold;
+color: #388e3c; /* Verde oscuro */
+}
+
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+body {
+padding: 10px;
+}
+.container {
+padding: 20px;
+}
+h1 {
+font-size: 1.8em;
+}
+h2 {
+font-size: 1.4em;
+}
+h3 {
+font-size: 1.2em;
+}
+.input-group input {
+width: 100%;
+max-width: none; /* Permite que ocupe todo el ancho */
+}
+button, .distance-btn {
+width: 100%; /* Botones a ancho completo */
+}
+.preset-numbers {
+justify-content: flex-start; /* Alinea a la izquierda en pantallas pequeñas */
+}
+.info-panels {
+grid-template-columns: 1fr; /* Un solo panel por fila */
+}
+.number-line {
+height: 100px; /* Ligeramente más bajo */
+}
+.tick-label {
+font-size: 11px;
+top: 55px;
+}
+.number-point {
+width: 18px;
+height: 18px;
+top: calc(50% - 9px);
+}
+.point-label {
+top: -28px;
+font-size: 10px;
+}
+}
+
+@media (max-width: 480px) {
+h1 {
+font-size: 1.6em;
+}
+h2 {
+font-size: 1.3em;
+}
+.controls, .number-line-container, .classification-panel, .points-panel, .distance-calculator {
+padding: 15px;
+}
+.input-group input, button, .distance-btn, .preset-btn {
+font-size: 0.9em;
+}
+.select-selected, .select-items div {
+font-size: 0.9em;
+}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Visualizador de la Recta Numérica</h1>
+<p>
+    Tecnológico de Software<br>
+    Nombre del Alumno: Jorge Emilio Batun Alcocer<br>
+    Nombre del Maestro: Jorge Javier Pedroza Romero<br>
+    Grupo: 1B
+</p>
+<section class="controls">
+<h2>Controles de Entrada</h2>
+<div class="input-group">
+<label for="numberInput">Valor del número: </label>
+<input type="text" id="numberInput" placeholder="Ej: sqrt(7), 2*π, 12, 1/3, φ">
+<button type="button" onclick="addNumber()">Agregar Número</button>
+<button type="button" onclick="clearAll()">Limpiar Todo</button>
+</div>
+<div class="preset-section">
+<h3>Números Predefinidos</h3>
+<p>Haz clic en cualquier número para agregarlo automáticamente:</p>
+<div class="preset-numbers">
+<span class="preset-btn" onclick="addPresetNumber('π')">π</span>
+<span class="preset-btn" onclick="addPresetNumber('e')">e</span>
+<span class="preset-btn" onclick="addPresetNumber('√2')">√2</span>
+<span class="preset-btn" onclick="addPresetNumber('√3')">√3</span>
+<span class="preset-btn" onclick="addPresetNumber('φ')">φ</span>
+<span class="preset-btn" onclick="addPresetNumber('1/3')">1/3</span>
+<span class="preset-btn" onclick="addPresetNumber('-1/2')">-1/2</span>
+<span class="preset-btn" onclick="addPresetNumber('2.5')">2.5</span>
+<span class="preset-btn" onclick="addPresetNumber('-√2')">-√2</span>
+<span class="preset-btn" onclick="addPresetNumber('2*π')">2*π</span>
+</div>
+</div>
+</section>
+<section class="number-line-container">
+<h2>Recta Numérica Interactiva</h2>
+<div class="number-line" id="numberLine">
+</div>
+<p class="range-info">
+<small>Rango de visualización: -10 a +10 (números fuera de este rango no se mostrarán)</small>
+</p>
+</section>
+<section class="info-panels">
+<div class="classification-panel">
+<h3>Clasificación de Conjuntos Numéricos</h3>
+<div class="classification-legend">
+<div class="legend-item">
+<div class="legend-color naturals"></div>
+<span><strong>ℕ Naturales:</strong> {1, 2, 3, 4, ...}</span>
+</div>
+<div class="legend-item">
+<div class="legend-color integers"></div>
+<span><strong>ℤ Enteros:</strong> {..., -2, -1, 0, 1, 2, ...}</span>
+</div>
+<div class="legend-item">
+<div class="legend-color rationals"></div>
+<span><strong>ℚ Racionales:</strong> Fracciones y decimales finitos/periódicos</span>
+</div>
+<div class="legend-item">
+<div class="legend-color irrationals"></div>
+<span><strong>ℝ-ℚ Irracionales:</strong> π, e, √2, decimales infinitos no periódicos</span>
+</div>
+</div>
+<div class="classification-info">
+<h4>Propiedades importantes:</h4>
+<ul>
+<li><strong>ℕ ⊂ ℤ:</strong> Todo número natural es entero</li>
+<li><strong>ℤ ⊂ ℚ:</strong> Todo entero puede escribirse como fracción</li>
+<li><strong>ℚ ∪ (ℝ-ℚ) = ℝ:</strong> Los reales son la unión de racionales e irracionales</li>
+<li><strong>ℚ ∩ (ℝ-ℚ) = ∅:</strong> No existen números que sean ambos</li>
+</ul>
+</div>
+</div>
+<div class="points-panel">
+<h3>Puntos en la Recta</h3>
+<div id="pointsList" class="points-list">
+<div class="empty-state">
+<p>Agrega números para ver su clasificación automática aquí</p>
+<small>Los puntos aparecerán ordenados de menor a mayor</small>
+</div>
+</div>
+</div>
+<div class="distance-calculator">
+<h3>Calculadora de Distancias</h3>
+<p class="calculator-description">
+Selecciona dos puntos para calcular la distancia entre ellos en la recta numérica.
+</p>
+<div class="distance-inputs">
+<div class="distance-field">
+<label>Punto A:</label>
+<div class="custom-select" id="pointA-container">
+<div class="select-selected" id="pointA-selected">Selecciona un punto</div>
+<div class="select-items" id="pointA-items">
+<div data-value="">Selecciona un punto</div>
+</div>
+</div>
+</div>
+<div class="distance-field">
+<label>Punto B:</label>
+<div class="custom-select" id="pointB-container">
+<div class="select-selected" id="pointB-selected">Selecciona un punto</div>
+<div class="select-items" id="pointB-items">
+<div data-value="">Selecciona un punto</div>
+</div>
+</div>
+</div>
+</div>
+<button type="button" class="distance-btn" onclick="calculateDistance()">
+Calcular Distancia
+</button>
+<div id="distanceResult">
+<div class="distance-placeholder">
+<div><strong>Calculadora de Distancias</strong></div>
+<div>Los resultados aparecerán aquí</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<script>
+/* ==================== VARIABLES GLOBALES ==================== */
+let points = [];
+let currentRange = 10;
+/* ==================== CONSTANTES MATEMÁTICAS ==================== */
+const CONSTANTS = {
+// Constantes básicas
+'π': Math.PI,
+'pi': Math.PI,
+'e': Math.E,
+// Número áureo (phi)
+'φ': (1 + Math.sqrt(5)) / 2,
+'phi': (1 + Math.sqrt(5)) / 2,
+// Tau (2π)
+'τ': 2 * Math.PI,
+'tau': 2 * Math.PI,
+// Logaritmos naturales
+'ln2': Math.LN2,
+'ln10': Math.LN10,
+// Raíces cuadradas comunes
+'√2': Math.sqrt(2),
+'√3': Math.sqrt(3),
+'√5': Math.sqrt(5),
+'√7': Math.sqrt(7),
+'√8': Math.sqrt(8),
+'√10': Math.sqrt(10),
+'√11': Math.sqrt(11),
+'√12': Math.sqrt(12),
+'√13': Math.sqrt(13),
+'√15': Math.sqrt(15),
+'√17': Math.sqrt(17),
+'√19': Math.sqrt(19),
+'√20': Math.sqrt(20),
+// Raíces cuadradas negativas
+'-√2': -Math.sqrt(2),
+'-√3': -Math.sqrt(3),
+'-√5': -Math.sqrt(5)
+};
+
+/* =========== FUNCIÓN PARA CONVERTIR TEXTO EN NÚMERO =========== */
+function parseNumber(input) {
+input = input.trim().replace(/\s+/g, '');
+
+if (CONSTANTS.hasOwnProperty(input)) {
+return CONSTANTS[input];
+}
+
+let processedInput = input;
+for (const [symbol, value] of Object.entries(CONSTANTS)) {
+const regex = new RegExp(symbol.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+processedInput = processedInput.replace(regex, value.toString());
+}
+
+if (input.includes('/') && !input.includes('*') && !input.includes('+') && !input.includes('-', 1)) {
+const parts = input.split('/');
+if (parts.length === 2) {
+const numerator = parseFloat(parts[0]);
+const denominator = parseFloat(parts[1]);
+if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+return numerator / denominator;
+}
+}
+}
+
+if (input.startsWith('√') && !input.includes('*') && !input.includes('+') && !input.includes('-', 1)) {
+const radicand = parseFloat(input.slice(1));
+if (!isNaN(radicand) && radicand >= 0) {
+return Math.sqrt(radicand);
+}
+}
+
+if (input.startsWith('-√') && !input.includes('*') && !input.includes('+')) {
+const radicand = parseFloat(input.slice(2));
+if (!isNaN(radicand) && radicand >= 0) {
+return -Math.sqrt(radicand);
+}
+}
+
+if (input.includes('sqrt(')) {
+const match = input.match(/sqrt\(([^)]+)\)/);
+if (match) {
+const innerExpression = match[1];
+let innerValue;
+try {
+if (innerExpression.includes('/')) {
+const parts = innerExpression.split('/');
+if (parts.length === 2) {
+const num = parseFloat(parts[0]);
+const den = parseFloat(parts[1]);
+if (!isNaN(num) && !isNaN(den) && den !== 0) {
+innerValue = num / den;
+}
+}
+} else {
+const safeChars = /^[0-9+\-*/.() ]+$/;
+if (safeChars.test(innerExpression)) {
+innerValue = Function('"use strict"; return (' + innerExpression + ')')();
+} else {
+innerValue = parseFloat(innerExpression);
+}
+}
+if (!isNaN(innerValue) && innerValue >= 0) {
+return Math.sqrt(innerValue);
+}
+} catch (e) {
+}
+}
+}
+
+try {
+processedInput = processedInput.replace(/\^/g, '**');
+const safeChars = /^[0-9+\-*/.() ]+$/;
+if (safeChars.test(processedInput)) {
+const result = Function('"use strict"; return (' + processedInput + ')')();
+if (typeof result === 'number' && !isNaN(result) && isFinite(result)) {
+return result;
+}
+}
+} catch (e) {
+}
+
+const num = parseFloat(processedInput);
+if (!isNaN(num)) {
+return num;
+}
+
+return null;
+}
+
+/* ==================== FUNCIONES DE CLASIFICACIÓN ==================== */
+function classifyNumber(num, originalInput) {
+if (num > 0 && Number.isInteger(num)) {
+return 'naturals';
+}
+
+if (Number.isInteger(num)) {
+return 'integers';
+}
+
+const irrationalConstants = [
+'π', 'pi', 'e', 'φ', 'phi', 'τ', 'tau', 'ln2', 'ln10',
+'√2', '√3', '√5', '√7', '√8', '√10', '√11',
+'√12', '√13', '√15', '√17', '√19', '√20',
+'-√2', '-√3', '-√5'
+];
+
+if (irrationalConstants.includes(originalInput)) {
+return 'irrationals';
+}
+
+if (originalInput.includes('sqrt(')) {
+const sqrtMatch = originalInput.match(/sqrt\(([^)]+)\)/);
+if (sqrtMatch) {
+const innerExpression = sqrtMatch[1];
+let innerValue;
+try {
+if (innerExpression.includes('/')) {
+const parts = innerExpression.split('/');
+if (parts.length === 2) {
+const num = parseFloat(parts[0]);
+const den = parseFloat(parts[1]);
+if (!isNaN(num) && !isNaN(den) && den !== 0) {
+innerValue = num / den;
+}
+}
+} else {
+innerValue = parseFloat(innerExpression);
+}
+if (!isNaN(innerValue) && innerValue >= 0) {
+const sqrtResult = Math.sqrt(innerValue);
+if (Number.isInteger(sqrtResult)) {
+if (sqrtResult > 0) {
+return 'naturals';
+} else if (sqrtResult === 0) {
+return 'integers';
+}
+} else {
+return 'irrationals';
+}
+}
+} catch (e) {
+return 'irrationals';
+}
+}
+}
+
+if (originalInput.includes('√')) {
+return 'irrationals';
+}
+
+if (originalInput.includes('*') || originalInput.includes('+') || originalInput.includes('-') || originalInput.includes('/')) {
+const irrationalSymbols = ['π', 'pi', 'e', 'φ', 'phi', 'τ', 'tau', '√', 'sqrt'];
+const containsIrrationals = irrationalSymbols.some(symbol => originalInput.includes(symbol));
+if (containsIrrationals) {
+const specialRationalCases = [
+/π\/π/, /pi\/pi/, /e\/e/, /φ\/φ/, /phi\/phi/, /τ\/τ/, /tau\/tau/, /√2\/√2/, /√3\/√3/, /√5\/√5/,
+/π-π/, /pi-pi/, /e-e/, /φ-φ/, /phi-phi/,
+/2\*π\/τ/, /τ\/2\*π/
+];
+const isSpecialRational = specialRationalCases.some(pattern => pattern.test(originalInput.replace(/\s/g, '')));
+if (isSpecialRational) {
+if (num > 0 && Number.isInteger(num)) {
+return 'naturals';
+}
+if (Number.isInteger(num)) {
+return 'integers';
+}
+return 'rationals';
+}
+return 'irrationals';
+}
+}
+
+if (originalInput.includes('/')) {
+return 'rationals';
+}
+
+return 'rationals';
+}
+
+function getClassificationName(classification) {
+const names = {
+'naturals': 'ℕ (Naturales)',
+'integers': 'ℤ (Enteros)',
+'rationals': 'ℚ (Racionales)',
+'irrationals': 'ℝ-ℚ (Irracionales)'
+};
+return names[classification] || 'No clasificado';
+}
+
+/* ==================== FUNCIONES DE INTERFAZ DE USUARIO ==================== */
+function addNumber() {
+const input = document.getElementById('numberInput').value;
+if (!input) {
+alert('Por favor ingresa un número.');
+return;
+}
+const value = parseNumber(input);
+if (value === null) {
+alert('Formato de número no válido. Ejemplos válidos: sqrt(7), 2*π, 1/e, √2, -1/2, φ');
+return;
+}
+if (Math.abs(value) > currentRange) {
+alert(`El número está fuera del rango actual (-${currentRange} a ${currentRange}).`);
+return;
+}
+const existingPoint = points.find(p => Math.abs(p.value - value) < 0.0001);
+if (existingPoint) {
+alert('Este número ya ha sido agregado.');
+return;
+}
+
+const classification = classifyNumber(value, input);
+
+const point = {
+id: Date.now(),
+value: value,
+label: input,
+classification: classification
+};
+
+points.push(point);
+points.sort((a, b) => a.value - b.value);
+
+updateDisplay();
+document.getElementById('numberInput').value = ''; /* Limpiar input después de agregar */
+}
+
+function addPresetNumber(input) {
+document.getElementById('numberInput').value = input;
+addNumber();
+}
+
+function updateDisplay() {
+renderNumberLine();
+renderPointsList();
+updateDistanceCalculators();
+}
+
+function renderNumberLine() {
+const numberLine = document.getElementById('numberLine');
+numberLine.innerHTML = '<div class="line"></div>';
+
+const range = 20; // Rango de -10 a +10
+const centerOffset = range / 2; // Offset para centrar
+
+// Dibujar las marcas (ticks) y etiquetas
+for (let i = -10; i <= 10; i++) {
+const tick = document.createElement('div');
+tick.className = 'tick';
+const position = ((i + centerOffset) / range) * 100;
+tick.style.left = `${position}%`;
+numberLine.appendChild(tick);
+
+// Mostrar etiquetas solo para números pares y cero
+if (i % 2 === 0) {
+const label = document.createElement('span');
+label.className = 'tick-label';
+label.textContent = i;
+label.style.left = `${position}%`;
+numberLine.appendChild(label);
+}
+}
+
+// Dibujar los puntos agregados
+points.forEach(point => {
+if (Math.abs(point.value) <= currentRange) {
+const pointElement = document.createElement('div');
+pointElement.className = `number-point ${point.classification}`;
+const position = ((point.value + centerOffset) / range) * 100;
+pointElement.style.left = `${position}%`;
+pointElement.dataset.id = point.id;
+pointElement.dataset.value = point.value;
+pointElement.dataset.label = point.label;
+pointElement.title = `${point.label} (${point.value.toFixed(4)}) - ${getClassificationName(point.classification)}`;
+numberLine.appendChild(pointElement);
+
+const labelElement = document.createElement('span');
+labelElement.className = 'point-label';
+labelElement.textContent = point.label;
+labelElement.style.left = `${position}%`;
+numberLine.appendChild(labelElement);
+}
+});
+}
+
+function renderPointsList() {
+const pointsList = document.getElementById('pointsList');
+pointsList.innerHTML = '';
+if (points.length === 0) {
+pointsList.innerHTML = `
+<div class="empty-state">
+<p>Agrega números para ver su clasificación automática aquí</p>
+<small>Los puntos aparecerán ordenados de menor a mayor</small>
+</div>`;
+return;
+}
+
+points.forEach(point => {
+const listItem = document.createElement('div');
+listItem.className = `point-item`;
+listItem.innerHTML = `
+<span><strong>${point.label}</strong> (≈ ${point.value.toFixed(4)})</span>
+<span class="classification-tag ${point.classification}">${getClassificationName(point.classification)}</span>
+`;
+pointsList.appendChild(listItem);
+});
+}
+
+function updateDistanceCalculators() {
+const selectA = document.getElementById('pointA-items');
+const selectB = document.getElementById('pointB-items');
+const selectedA = document.getElementById('pointA-selected');
+const selectedB = document.getElementById('pointB-selected');
+
+// Limpiar opciones anteriores y agregar la opción por defecto
+selectA.innerHTML = '<div data-value="">Selecciona un punto</div>';
+selectB.innerHTML = '<div data-value="">Selecciona un punto</div>';
+selectedA.textContent = 'Selecciona un punto';
+selectedB.textContent = 'Selecciona un punto';
+selectedA.dataset.value = ''; // Resetear valor
+selectedB.dataset.value = ''; // Resetear valor
+
+// Poblar con los puntos actuales
+points.forEach(point => {
+const optionA = document.createElement('div');
+optionA.dataset.value = point.value;
+optionA.textContent = `${point.label} (≈ ${point.value.toFixed(2)})`;
+selectA.appendChild(optionA);
+
+const optionB = document.createElement('div');
+optionB.dataset.value = point.value;
+optionB.textContent = `${point.label} (≈ ${point.value.toFixed(2)})`;
+selectB.appendChild(optionB);
+});
+}
+
+function calculateDistance() {
+const pointASelected = document.getElementById('pointA-selected');
+const pointBSelected = document.getElementById('pointB-selected');
+const valA = parseFloat(pointASelected.dataset.value);
+const valB = parseFloat(pointBSelected.dataset.value);
+const resultDiv = document.getElementById('distanceResult');
+
+if (isNaN(valA) || isNaN(valB)) {
+alert('Por favor selecciona dos puntos válidos.');
+return;
+}
+
+const distance = Math.abs(valA - valB);
+
+const labelA = points.find(p => Math.abs(p.value - valA) < 0.0001)?.label || valA.toFixed(2);
+const labelB = points.find(p => Math.abs(p.value - valB) < 0.0001)?.label || valB.toFixed(2);
+
+resultDiv.innerHTML = `
+<div class="distance-result">
+<div><strong>Distancia entre:</strong> |${labelA} - ${labelB}|</div>
+<div><strong>Valores:</strong> |${valA.toFixed(4)} - ${valB.toFixed(4)}|</div>
+<div><strong>Resultado:</strong> ${distance.toFixed(4)}</div>
+</div>
+`;
+}
+
+function clearAll() {
+points = [];
+document.getElementById('numberInput').value = '';
+updateDisplay();
+// Resetear el div de resultados de distancia
+document.getElementById('distanceResult').innerHTML = `
+<div class="distance-placeholder">
+<div><strong>Calculadora de Distancias</strong></div>
+<div>Los resultados aparecerán aquí</div>
+</div>
+`;
+}
+
+// Configuración de los menús desplegables personalizados
+function setupCustomSelects() {
+document.querySelectorAll('.custom-select').forEach(container => {
+const selected = container.querySelector('.select-selected');
+const items = container.querySelector('.select-items');
+const inputElement = container.id === 'pointA-container' ? document.getElementById('pointA-selected') : document.getElementById('pointB-selected');
+
+selected.addEventListener('click', function(e) {
+e.stopPropagation();
+// Cierra otros menús desplegables abiertos
+document.querySelectorAll('.select-items.show').forEach(item => {
+if (item !== items) {
+item.classList.remove('show');
+}
+});
+items.classList.toggle('show');
+});
+
+items.addEventListener('click', function(e) {
+// Asegura que el clic sea en un div de opción válido
+if (e.target.tagName === 'DIV' && e.target.dataset.value !== undefined) {
+const value = e.target.dataset.value;
+inputElement.textContent = e.target.textContent;
+inputElement.dataset.value = value; // Guarda el valor numérico
+items.classList.remove('show');
+}
+});
+});
+
+// Cierra los menús desplegables si se hace clic fuera de ellos
+window.addEventListener('click', function(e) {
+if (!e.target.closest('.custom-select')) {
+document.querySelectorAll('.select-items').forEach(item => {
+item.classList.remove('show');
+});
+}
+});
+}
+// Inicializar la aplicación: configurar menús y mostrar estado inicial
+setupCustomSelects();
+updateDisplay();
+</script>
+</body>
+</html>
